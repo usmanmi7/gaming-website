@@ -8,11 +8,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const [loading, setLoading] = useState(true);
+  const [videoFailed, setVideoFailed] = useState(false);
   const frameRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Auto-dismiss loader after 2s
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -36,6 +36,28 @@ const Hero = () => {
         scrub: true,
       },
     });
+  }, []);
+
+  // Force play video on mount
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = () => {
+      video.play().catch(() => {
+        // Browser blocked autoplay — try on first interaction
+        const onInteract = () => {
+          video.play().catch(() => {});
+          document.removeEventListener("click", onInteract);
+          document.removeEventListener("touchstart", onInteract);
+        };
+        document.addEventListener("click", onInteract, { once: true });
+        document.addEventListener("touchstart", onInteract, { once: true });
+      });
+    };
+
+    video.addEventListener("canplay", tryPlay);
+    return () => video.removeEventListener("canplay", tryPlay);
   }, []);
 
   return (
@@ -62,11 +84,23 @@ const Hero = () => {
           muted
           loop
           playsInline
+          preload="auto"
+          poster="/img/hero-bg.jpg"
           className="absolute left-0 top-0 size-full object-cover object-center"
           onCanPlay={() => setLoading(false)}
+          onError={() => setVideoFailed(true)}
         >
           <source src="/video/hero.mp4" type="video/mp4" />
         </video>
+
+        {/* Fallback image if video fails */}
+        {videoFailed && (
+          <img
+            src="/img/hero-bg.jpg"
+            alt="hero"
+            className="absolute left-0 top-0 size-full object-cover object-center"
+          />
+        )}
 
         <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">
           G<b>A</b>MING
