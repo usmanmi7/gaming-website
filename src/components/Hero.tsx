@@ -1,0 +1,136 @@
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { TiLocationArrow } from "react-icons/ti";
+import Button from "./Button";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const Hero = () => {
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [, setLoadedCount] = useState(0);
+  const totalImages = 4;
+  const frameRef = useRef<HTMLDivElement>(null);
+
+  const handleImageLoad = () => {
+    setLoadedCount((prev) => {
+      const newCount = prev + 1;
+      if (newCount >= totalImages - 1) {
+        setLoading(false);
+      }
+      return newCount;
+    });
+  };
+
+  useEffect(() => {
+    // Auto-dismiss loader after 2s
+    const timer = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!frameRef.current) return;
+
+    gsap.set("#video-frame", {
+      clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
+      borderRadius: "0% 0% 40% 10%",
+    });
+
+    gsap.from("#video-frame", {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      borderRadius: "0% 0% 0% 0%",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: "#video-frame",
+        start: "center center",
+        end: "bottom center",
+        scrub: true,
+      },
+    });
+  }, []);
+
+  const handleMiniClick = () => {
+    setCurrentIndex((prev) => (prev % totalImages) + 1);
+  };
+
+  const heroImages = [
+    "/img/hero-bg.jpg",
+    "/img/about.jpg",
+    "/img/entrance.jpg",
+    "/img/feature-bg.jpg",
+  ];
+
+  return (
+    <div className="relative h-dvh w-screen overflow-x-hidden">
+      {loading && (
+        <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
+          <div className="three-body">
+            <div className="three-body__dot" />
+            <div className="three-body__dot" />
+            <div className="three-body__dot" />
+          </div>
+        </div>
+      )}
+
+      <div
+        id="video-frame"
+        ref={frameRef}
+        className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75"
+      >
+        <div>
+          <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
+            <div
+              onClick={handleMiniClick}
+              className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
+            >
+              <img
+                src={heroImages[(currentIndex % totalImages)]}
+                alt="preview"
+                className="size-64 origin-center scale-150 object-cover object-center"
+                onLoad={handleImageLoad}
+              />
+            </div>
+          </div>
+
+          {/* Main background image */}
+          <img
+            src={heroImages[(currentIndex - 1) % totalImages]}
+            alt="hero"
+            className="absolute left-0 top-0 size-full object-cover object-center"
+            onLoad={handleImageLoad}
+          />
+        </div>
+
+        <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">
+          G<b>A</b>MING
+        </h1>
+
+        <div className="absolute left-0 top-0 z-40 size-full">
+          <div className="mt-24 px-5 sm:px-10">
+            <h1 className="special-font hero-heading text-blue-100">
+              redefi<b>n</b>e
+            </h1>
+
+            <p className="mb-5 max-w-64 font-robert-regular text-blue-100">
+              Enter the Metagame Layer <br /> Unleash the Play Economy
+            </p>
+
+            <Button
+              id="watch-trailer"
+              title="Watch trailer"
+              leftIcon={<TiLocationArrow />}
+              containerClass="bg-yellow-300 flex-center gap-1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <h1 className="special-font hero-heading absolute bottom-5 right-5 text-black">
+        G<b>A</b>MING
+      </h1>
+    </div>
+  );
+};
+
+export default Hero;
