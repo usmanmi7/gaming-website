@@ -7,21 +7,9 @@ import Button from "./Button";
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
-  const [currentIndex, setCurrentIndex] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [, setLoadedCount] = useState(0);
-  const totalImages = 4;
   const frameRef = useRef<HTMLDivElement>(null);
-
-  const handleImageLoad = () => {
-    setLoadedCount((prev) => {
-      const newCount = prev + 1;
-      if (newCount >= totalImages - 1) {
-        setLoading(false);
-      }
-      return newCount;
-    });
-  };
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     // Auto-dismiss loader after 2s
@@ -50,17 +38,6 @@ const Hero = () => {
     });
   }, []);
 
-  const handleMiniClick = () => {
-    setCurrentIndex((prev) => (prev % totalImages) + 1);
-  };
-
-  const heroImages = [
-    "/img/hero-bg.jpg",
-    "/img/about.jpg",
-    "/img/entrance.jpg",
-    "/img/feature-bg.jpg",
-  ];
-
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden" style={{ backgroundColor: '#DFDFF0' }}>
       {loading && (
@@ -76,31 +53,20 @@ const Hero = () => {
       <div
         id="video-frame"
         ref={frameRef}
-        className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75"
+        className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-black"
       >
-        <div>
-          <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
-            <div
-              onClick={handleMiniClick}
-              className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
-            >
-              <img
-                src={heroImages[(currentIndex % totalImages)]}
-                alt="preview"
-                className="size-64 origin-center scale-150 object-cover object-center"
-                onLoad={handleImageLoad}
-              />
-            </div>
-          </div>
-
-          {/* Main background image */}
-          <img
-            src={heroImages[(currentIndex - 1) % totalImages]}
-            alt="hero"
-            className="absolute left-0 top-0 size-full object-cover object-center"
-            onLoad={handleImageLoad}
-          />
-        </div>
+        {/* Hero background video */}
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute left-0 top-0 size-full object-cover object-center"
+          onCanPlay={() => setLoading(false)}
+        >
+          <source src="/video/hero.mp4" type="video/mp4" />
+        </video>
 
         <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">
           G<b>A</b>MING
