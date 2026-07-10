@@ -77,7 +77,7 @@ const Hero = () => {
         ref={frameRef}
         className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-black"
       >
-        {/* Hero background video */}
+        {/* Hero background video — hosted externally to avoid Vercel file size limits */}
         <video
           ref={videoRef}
           autoPlay
@@ -90,7 +90,7 @@ const Hero = () => {
           onCanPlay={() => setLoading(false)}
           onError={() => setVideoFailed(true)}
         >
-          <source src="/video/hero.mp4" type="video/mp4" />
+          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
         </video>
 
         {/* Fallback image if video fails */}
