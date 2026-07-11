@@ -90,7 +90,7 @@ const Hero = () => {
           onCanPlay={() => setLoading(false)}
           onError={() => setVideoFailed(true)}
         >
-          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/nmlr2r1m/video/upload/v1783718695/hero_a3jn7e.mp4" type="video/mp4" />
         </video>
 
         {/* Fallback image if video fails */}
