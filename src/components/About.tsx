@@ -43,15 +43,6 @@ const About = () => {
           containerClass="mt-5 !text-black text-center"
           className="!text-[clamp(1.5rem,3vw,2.5rem)]"
         />
-
-        <div className="about-subtext">
-          <p className="text-gray-500">
-            The Game of Games begins—your life, now an epic MMORPG
-          </p>
-          <p className="text-gray-500">
-            Gaming unites every player from countless games and platforms into a unified Play Economy
-          </p>
-        </div>
       </div>
 
       <div className="h-dvh w-screen" id="clip" ref={clipRef}>
@@ -60,6 +51,7 @@ const About = () => {
           height: "60vh",
           margin: "0 auto",
           overflow: "hidden",
+          borderRadius: "0",
         }}>
           <img
             src="/img/about.jpg"
@@ -67,6 +59,15 @@ const About = () => {
             className="absolute left-0 top-0 size-full object-cover"
           />
         </div>
+      </div>
+
+      <div className="flex flex-col items-center text-center px-6 mx-auto" style={{ paddingTop: '80px', width: '100%' }}>
+        <p className="text-gray-500 text-center">
+          The Game of Games begins—your life, now an epic MMORPG
+        </p>
+        <p className="text-gray-500 text-center mt-2">
+          Gaming unites every player from countless games and platforms into a unified Play Economy
+        </p>
       </div>
     </div>
   );

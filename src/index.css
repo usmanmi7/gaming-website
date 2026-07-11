@@ -183,7 +183,7 @@ body {
 
 /* Mask clip path */
 .mask-clip-path {
-  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  clip-path: none;
 }
 
 /* Nav styles */
