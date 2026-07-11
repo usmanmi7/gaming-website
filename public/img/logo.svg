@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="144px" height="144px" baseProfile="basic"><path fill="#ff3d00" d="M23.998,3L1.895,45L24,39l22.105,6L23.998,3z M23.998,37L14.39,24H33.61L23.998,37z"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" fill="white">
+  <text x="0" y="32" font-family="Arial, sans-serif" font-weight="900" font-size="36" letter-spacing="-1">
+    <tspan fill="white">GA</tspan><tspan fill="#5542FF">MING</tspan>
+  </text>
+</svg>
