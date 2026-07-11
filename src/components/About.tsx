@@ -51,7 +51,6 @@ const About = () => {
           height: "60vh",
           margin: "0 auto",
           overflow: "hidden",
-          borderRadius: "0",
         }}>
           <img
             src="/img/about.jpg"
